@@ -107,7 +107,6 @@ class LvlManager:
         self.active_level = number - 1
 
 
-
 class Player(engine_main.Creature):
     def __init__(self, pos, *groups):
         super().__init__(game_data.images['player'], pos, *groups)
@@ -282,6 +281,7 @@ class Player(engine_main.Creature):
 class Enemy(engine_main.Creature):
     def __init__(self, pos, *groups):
         super().__init__(game_data.images['enemy'], pos, *groups)
+        self.is_active = False
 
     def update(self, *events, kill=False):
         if kill:
@@ -303,7 +303,10 @@ class Enemy(engine_main.Creature):
             self.kill()
 
     def move(self):
-        if 0.5 <= self.target_distance(PLAYER_POS) <= 3:
+        if 0.5 <= self.target_distance(PLAYER_POS) <= 3 or self.is_active:
+            self.is_active = True
+            if not (self.is_active and 0.5 <= self.target_distance(PLAYER_POS) <= 5):
+                self.is_active = False
             if not PLAYER_POS[0] - 0.05 <= self.x <= PLAYER_POS[0] + 0.05:
                 if self.x < PLAYER_POS[0]:
                     self.vx = game_data.NPC_SPEED
