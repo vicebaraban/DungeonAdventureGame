@@ -196,7 +196,6 @@ class Game:
                 #     self._level.set_active_level(9)
                 #     self._init_level_menu()sss
 
-
     def _process_events(self):
         self._events = pygame.event.get()
         if self.game_state == game_objects.GameState.MAIN_MENU:
